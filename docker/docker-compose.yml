@@ -30,9 +30,25 @@ services:
     container_name: php84-db
     image: mysql:8.0
     volumes:
-      - ./storage/mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     restart: always
     environment:
+      MYSQL_DATABASE: design_pattern
+      MYSQL_USER: design
+      MYSQL_PASSWORD: pattern
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: "pma"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: design
+      PMA_PASSWORD: pattern
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
